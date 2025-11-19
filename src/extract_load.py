@@ -4,6 +4,9 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 
+# Carregar as variáveis do arquivo .env
+load_dotenv()
+
 # Obter as variáveis do arquivo .env
 DB_HOST = os.getenv('DB_HOST_PROD')
 DB_PORT = os.getenv('DB_PORT_PROD')
