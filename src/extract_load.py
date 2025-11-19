@@ -37,7 +37,7 @@ def buscar_todos_dados_commodities():
     return pd.concat(todos_dados)  # Concatena todos os dados em um único DataFrame
 
 def salvar_no_postgres(df, schema='public'):
-    df.to_sql('commodities', engine, if_exists='replace', index=True, index_label='Date', schema=schema)
+    df.to_sql('commodities', engine, if_exists='append', index=True, index_label='Date', schema=schema)
     print(f"Dados salvos no schema '{schema}' do banco de dados PostgreSQL")
 
 if __name__ == "__main__":
