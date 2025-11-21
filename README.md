@@ -7,8 +7,6 @@
 
 > **Modern data warehouse for commodities analysis with real-time monitoring**
 
-*How much did your company sell yesterday? If it takes you more than 3 seconds to answer, this project is for you!*
-
 ## 🎯 Overview
 
 Complete data warehouse solution for commodities analysis using **PostgreSQL**, **DBT**, **Python**, and **Streamlit**. Extract data from Yahoo Finance API, transform with SQL, and visualize in professional dashboards.
@@ -37,6 +35,57 @@ graph TD
         F
     end
 ```
+
+### Project Components
+
+#### 1. **Extract & Load** (`src/`)
+Responsible for extracting data from APIs and loading directly into PostgreSQL database.
+- **Script**: `extract_load.py`
+- **Function**: Fetches commodity data via Yahoo Finance API and loads into database
+- **Features**: Error handling, data validation, automated scheduling
+
+#### 2. **Transform** (`dbsales/`)
+Uses DBT for data transformations:
+- **Staging Models**: Data cleaning and standardization
+- **Datamart Models**: Business metrics and aggregated analytics tables
+- **Seeds**: CSV data loading for commodity movements
+- **Tests**: Data quality and integrity validation
+
+#### 3. **Dashboard** (Streamlit)
+Visual interface for data analysis:
+- **Interactive Visualizations**: Real-time charts and graphs
+- **Commodity Data Tables**: Detailed data exploration
+- **Trend Analysis**: Historical price and volume patterns
+- **KPI Monitoring**: ROI, P&L, and investment tracking
+
+### 🔄 Data Flow
+
+```
+Yahoo Finance API → Python ETL → PostgreSQL → DBT Transform → Data Warehouse → Streamlit Dashboard
+```
+
+#### **Detailed ETL Process:**
+
+**1. Extract**
+   - Fetches commodity data from external APIs (Yahoo Finance)
+   - Collects price information, volumes, and timestamps
+   - Handles API rate limits and error recovery
+
+**2. Load**
+   - Loads raw data into PostgreSQL staging tables
+   - Maintains original data for audit trails
+   - Ensures data consistency and integrity
+
+**3. Transform**
+   - DBT processes raw data through staging models
+   - Creates clean, standardized staging tables
+   - Generates final datamart tables for analysis
+   - Applies business logic and calculations
+
+**4. Visualize**
+   - Streamlit dashboard consumes data from warehouse
+   - Presents real-time KPIs and interactive visualizations
+   - Enables data export and filtering capabilities
 
 ## 📈 Dashboard
 

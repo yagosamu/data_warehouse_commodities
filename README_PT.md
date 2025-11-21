@@ -7,8 +7,6 @@
 
 > **Data warehouse moderno para análise de commodities com monitoramento em tempo real**
 
-*Quanto sua empresa vendeu ontem? Se você demorar mais de 3 segundos para responder, este projeto é para você!*
-
 ## 🎯 Visão Geral
 
 Solução completa de data warehouse para análise de commodities usando **PostgreSQL**, **DBT**, **Python** e **Streamlit**. Extrai dados da API do Yahoo Finance, transforma com SQL e visualiza em dashboards profissionais.
@@ -37,6 +35,57 @@ graph TD
         F
     end
 ```
+
+### Componentes do Projeto
+
+#### 1. **Extract & Load** (`src/`)
+Responsável por extrair dados de APIs e carregar diretamente no banco PostgreSQL.
+- **Script**: `extract_load.py`
+- **Função**: Busca dados de commodities via API do Yahoo Finance e carrega no banco
+- **Recursos**: Tratamento de erros, validação de dados, agendamento automatizado
+
+#### 2. **Transform** (`dbsales/`)
+Utiliza DBT para transformações de dados:
+- **Models Staging**: Limpeza e padronização dos dados
+- **Models Datamart**: Métricas de negócio e tabelas analíticas agregadas
+- **Seeds**: Carregamento de dados CSV de movimentações de commodities
+- **Tests**: Validação de qualidade e integridade dos dados
+
+#### 3. **Dashboard** (Streamlit)
+Interface visual para análise dos dados:
+- **Visualizações Interativas**: Gráficos e charts em tempo real
+- **Tabelas de Dados**: Exploração detalhada das commodities
+- **Análise de Tendências**: Padrões históricos de preços e volumes
+- **Monitoramento de KPIs**: ROI, P&L e acompanhamento de investimentos
+
+### 🔄 Fluxo de Dados
+
+```
+Yahoo Finance API → Python ETL → PostgreSQL → DBT Transform → Data Warehouse → Streamlit Dashboard
+```
+
+#### **Processo ETL Detalhado:**
+
+**1. Extract (Extração)**
+   - Busca dados de commodities de APIs externas (Yahoo Finance)
+   - Coleta informações de preços, volumes e timestamps
+   - Gerencia limites de API e recuperação de erros
+
+**2. Load (Carregamento)**
+   - Carrega dados brutos em tabelas staging do PostgreSQL
+   - Mantém dados originais para trilhas de auditoria
+   - Garante consistência e integridade dos dados
+
+**3. Transform (Transformação)**
+   - DBT processa dados brutos através de models staging
+   - Cria tabelas staging limpas e padronizadas
+   - Gera tabelas datamart finais para análise
+   - Aplica lógica de negócio e cálculos
+
+**4. Visualização**
+   - Dashboard Streamlit consome dados do data warehouse
+   - Apresenta KPIs em tempo real e visualizações interativas
+   - Permite exportação de dados e capacidades de filtragem
 
 ## 📈 Dashboard
 
