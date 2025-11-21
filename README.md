@@ -1,66 +1,112 @@
-# Projeto de Data Warehouse de Commodities
+# 📊 Commodities Data Warehouse
 
-Quanto sua empresa vendeu ontem?
-Se você demorar mais de 3 segundos para responder esse workshop de hoje é para você!
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://python.org)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13%2B-blue?logo=postgresql)](https://postgresql.org)
+[![DBT](https://img.shields.io/badge/DBT-1.x-orange?logo=dbt)](https://getdbt.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.x-red?logo=streamlit)](https://streamlit.io)
 
-Este projeto tem como objetivo criar um Data Warehouse (DW) para armazenar e analisar dados de commodities, utilizando uma arquitetura moderna de ETL (Extract, Transform, Load). O projeto inclui:
+> **Modern data warehouse for commodities analysis with real-time monitoring**
 
-[Documentação do DBT](https://lvgalvao.github.io/workshop-aberto-dw-do-zero/#!/overview)
+*How much did your company sell yesterday? If it takes you more than 3 seconds to answer, this project is for you!*
 
-[Dashboard](https://lvgalvao-workshop-aberto-dw-do-zero-appapp-vp0gw4.streamlit.app/)
+## 🎯 Overview
 
-1. **Parte de Extract_Load**: Responsável por extrair dados de uma API e carregar diretamente no banco de dados PostgreSQL.
-2. **Parte de Seed**: Utiliza seeds do DBT para carregar dados de movimentações de commodities a partir de arquivos CSV.
-3. **Models**: Define as transformações de dados usando DBT, criando tabelas de staging e de datamart.
-4. **Dashboard**: Implementado em Streamlit, exibe dados e visualizações das commodities a partir do Data Warehouse.
+Complete data warehouse solution for commodities analysis using **PostgreSQL**, **DBT**, **Python**, and **Streamlit**. Extract data from Yahoo Finance API, transform with SQL, and visualize in professional dashboards.
 
-## Estrutura do Projeto
-
-### 1. Extract_Load
-
-A parte de `extract_load` é responsável por extrair dados de uma API e carregar diretamente no banco de dados PostgreSQL. O script `extract_load.py` realiza essa operação.
-
-### 2. Seed
-
-A parte de seed utiliza o DBT para carregar dados de movimentações de commodities a partir de arquivos CSV. Esses dados são carregados diretamente no Data Warehouse.
-
-### 3. Models
-
-Os models do DBT são usados para transformar os dados carregados em tabelas de staging e de datamart. As transformações incluem a limpeza dos dados e a criação de métricas agregadas.
-
-### 4. Dashboard
-
-O dashboard é implementado em Streamlit e permite visualizar os dados das commodities armazenados no Data Warehouse. Ele exibe tabelas e gráficos interativos para análise dos dados.
-
-## Gráficos Mermaid
-
-### Movimentação entre Sistemas
+## 🏗️ Architecture
 
 ```mermaid
-graph TD;
-    subgraph Extract_Load
-        A1[buscar_dados_commodities] --> B1[buscar_todos_dados_commodities]
-        B1 --> C1[carregar_dados_no_postgres]
+graph TD
+    A[📊 Yahoo Finance API] -->|Extract| B[🐍 Python ETL]
+    B -->|Load| C[🐘 PostgreSQL]
+    C -->|Transform| D[🔧 DBT Models]
+    D -->|Staging| E[📊 Data Warehouse]
+    E -->|Analytics| F[📈 Streamlit Dashboard]
+    
+    subgraph "Data Pipeline"
+        B
+        D
     end
-
-    subgraph Transform
-        D1[stg_commodities.sql] --> E1[stg_movimentacao_commodities.sql]
-        E1 --> F1[dm_commodities.sql]
+    
+    subgraph "Storage Layer"
+        C
+        E
     end
-
-    A[API de Commodities] -->|Extrai Dados| Extract_Load
-    Extract_Load -->|Carrega Dados| C[PostgreSQL]
-    C -->|Armazena Dados| D[Data Warehouse]
-    Data_Warehouse -->|Transforma Dados| Transform
-    Transform -->|Cria Views| F[Dashboard Streamlit]
+    
+    subgraph "Presentation Layer"
+        F
+    end
 ```
 
-### Ideia de ETL
+## 📈 Dashboard
 
-```mermaid
-graph LR;
-    A[Extract] -->|Extrai Dados da API| B[Load]
-    B -->|Carrega Dados no DW| C[Transform]
-    C -->|Limpa e Transforma Dados| D[Data Warehouse]
-    D -->|Exibe Dados| E[Dashboard Streamlit]
+![Dashboard](assets/dashboard.png)
+
+**Key Features:**
+- 💰 Real-time KPIs (ROI, P&L, Total Invested)
+- 📊 Interactive charts with Plotly
+- 🎛️ Advanced filtering system
+- 📋 CSV export functionality
+
+## 🔄 Data Lineage
+
+![Lineage](assets/lineage_graph.png)
+
+**Pipeline Flow:**
+1. **Extract**: Yahoo Finance API → Python
+2. **Load**: PostgreSQL staging tables
+3. **Transform**: DBT models (staging → datamart)
+4. **Visualize**: Streamlit dashboard
+
+## 🚀 Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/yagosamu/data_warehouse_commodities.git
+cd data_warehouse_commodities
+
+# Setup environment
+python -m venv venv
+venv\Scripts\activate
+pip install -r app/requirements.txt
+
+# Configure database (.env file required)
+python src/extract_load.py
+
+# Run transformations
+cd dbsales && dbt run
+
+# Launch dashboard
+cd ../app && streamlit run app.py
 ```
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Extract** | Python + yfinance | API data extraction |
+| **Storage** | PostgreSQL | Data warehouse |
+| **Transform** | DBT | SQL transformations |
+| **Visualize** | Streamlit + Plotly | Interactive dashboard |
+
+## 📁 Structure
+
+```
+├── src/extract_load.py     # ETL pipeline
+├── dbsales/               # DBT project
+│   ├── models/staging/    # Data cleaning
+│   └── models/datamart/   # Business metrics
+├── app/app.py            # Streamlit dashboard
+└── assets/               # Screenshots
+```
+
+## 👨‍💻 Author
+
+**Yago Lopes** - [GitHub](https://github.com/yagosamu)
+
+---
+
+### 🇧🇷 [Versão em Português](README_PT.md)
+
+---
+*⭐ Star this repo if you found it helpful!*
